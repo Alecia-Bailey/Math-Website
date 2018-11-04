@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Mathematics Practice Test </title>
+	<meta name="Author" content="Alecia Bailey"/>
+	<meta name="Keywords" content="html,images,basic tags, Web Programming"/>
+	<meta charset="UTF-8"/>
+	
+	<style type="text/css">
+		body{
+			margin: 0;
+		}
+
+		#title{
+			background-color: #3B0348;
+			height: 70px;
+			margin:auto;
+			position: relative;
+		}
+		p{
+			color: white;
+			font-size: 2rem;
+			text-align: center;
+			margin-top: 0;
+			padding-top: 10px;
+		}
+
+		.flex-container{
+			display: flex;
+			flex-wrap: nowrap;
+			background-color: lavender;
+		}
+
+		.ops-container{
+			width:400px;
+			margin: 10px;
+			text-align: center;
+			line-height: 75px;
+			font-size: 20px;
+			border-radius: 10px;
+		}
+
+		#addition{
+			background-color: #632A74;
+		}
+		#add{
+			color: #94639F;
+		}
+
+		#subtraction{
+			background-color: #74A036;
+		}
+		#sub{
+			color: #BFDC96; 	
+		}
+
+		#multiplication{
+			background-color: #A3AC3A;
+		}
+		#mul{
+			color: #E6ECA1; 
+		}
+
+		#division{
+			background-color: #94325D;
+		}
+		#divi{
+			color: #CC8BA7;
+		}
+
+		#add, #sub, #mul, #divi{
+			border: none;
+			background-color: transparent;
+			font-family: serif;
+			font-size: 20px;
+			font-weight: weight;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="title"><p>Mathematics Practice Questions</p></div>
+
+	<div id="operations" class="flex-container">
+		<div class="ops-container" id="addition">
+			<button id="add" onclick="addFunction()">Addition</button>
+		</div>
+		<div class="ops-container" id="subtraction">
+			<button id="sub" onclick="subFunction()">Subtraction</button>
+		</div>
+		<div class="ops-container" id="multiplication">
+			<button id="mul" onclick="mulFunction()">Multiplication</button>
+		</div>
+		<div class="ops-container" id="division">
+			<button id="divi" onclick="divFunction()">Division</button>
+		</div>
+	</div>
+
+	<iframe height="300px" width="100%" src="17 FAST MATHS TRICKS YOU MUST KNOW.mp4" background="purple" frameborder="1"></iframe>
+	<p><a href="https://www.youtube.com/watch?v=yrMLtHTXHI0">17 Fast Maths Tricks You Must Know</a></p>
+
+	
+	<div id='questions'></div>
+		
+	<div id='user-report'>
+		<div id = 'registration_info'></div>
+		<div id = 'grade_info'></div>
+	</div>
+
+
+	<script>
+		var addButton = document.getElementById("add");
+		var subButton = document.getElementById("sub");
+		var mulButton = document.getElementById("mul");
+		var divButton = document.getElementById("divi");
+
+		function addFunction(){
+			
+			var active = 'add';
+			subButton.disabled = "true";
+			mulButton.disabled = "true";
+			divButton.disabled = "true";
+
+			level1(active);
+			
+		}
+
+		function subFunction(){
+			var active = 'sub';
+			addButton.disabled = "true";
+			mulButton.disabled = "true";
+			divButton.disabled = "true";
+
+			level1(active);
+		}
+
+		function mulFunction(){
+			var active = 'mul';
+			subButton.disabled = "true";
+			addButton.disabled = "true";
+			divButton.disabled = "true";
+
+			level1(active);
+		}
+
+		function divFunction(){
+			var active = 'div';
+			subButton.disabled = "true";
+			addButton.disabled = "true";
+			addButton.disabled = "true";
+
+			level1(active);
+		}
+
+		var question = document.getElementById('questions');
+		var correct = [];
+		var wrong = [];
+		var userInput = [];
+
+		function gradeCheck(correctList,nextLevel,operation){
+			var message1 = "Congratulations! You have successfully completed this level. Your grade for this level is: ";
+			var message2 = "I'm sorry you did not pass but your grade for this level is: ";
+
+			var okay = document.createElement('INPUT');
+			okay.setAttribute('type','submit');
+			okay.setAttribute('value', 'Finished');
+			okay.setAttribute('id', 'compButton');
+			question.append(okay);
+
+			document.getElementById('compButton').onclick = function(){
+				var countCorrect = 0;
+				var countWrong = 0;
+				
+				for (var m = 1; m <= 15; m++){
+					userInput.push(document.getElementById("numInput" + m).value);
+					if (correctList[m] == userInput[m]){
+						countCorrect++;
+					} else{
+						countWrong++;
+						wrong.push(m);
+						console.log(wrong);
+					}
+				}
+
+				var grade = (countCorrect/15)*100;
+
+				if (grade >= 80 && nextLevel != 6){
+					correct = [];
+					userInput = [];
+					functionCall = 'level' + nextLevel;
+					report (grade, wrong, countWrong, message1);
+
+					window.setTimeout (function(){
+						document.getElementById('grade_info').innerHTML = "";
+						window[functionCall](operation);
+					},5000);
+				}else if (grade >= 80 && nextLevel == 6){
+					alert ("Congratulations! You Completed the Exercise!");
+				}else{
+					report (grade, wrong, countWrong, message2);
+
+					window.setTimeout(function(){
+						var retry = prompt('Do you want to retry the exercise? [Yes/No]');
+						if (retry.toLowerCase() == 'yes'){
+							for (var r = 1; r <=15; r++){
+								document.getElementById('numInput' + r).value = '';
+							}
+						}else{
+							window.close();
+						}
+					},5000);					
+				}
+			};
+		}
+
+		var gradeReport = document.getElementById("grade_info");
+		var gradeHeader = document.createElement('H4');
+		var questionHeader = document.createElement('H5');
+
+
+		function report(finalGrade, listOfIncorrect, incorrectCount, message){
+			gradeHeader.innerText =  message + finalGrade;
+			questionHeader.innerText = "Incorrect Questions were: ";
+
+			gradeReport.append(gradeHeader);
+			gradeReport.append(questionHeader);
+			for (var w = 0; w < incorrectCount; w++){
+				gradeReport.innerHTML += "Question Number: " + listOfIncorrect[w] + ".";
+				gradeReport.append(space);
+			}
+
+		}
+
+		function resultFunction(operation,num1,num2){
+			if (operation == 'add'){
+				return (num1 + num2);
+			}else if(operation == 'sub'){
+				return (num1 - num2);
+			}else if (operation == 'mul'){
+				return (num1 * num2);
+			}else{
+				return (Math.round(num1 / num2));
+			}
+		}
+
+		function addQuestions(num1,num2,i,operation){
+			var input = document.createElement("INPUT");
+			input.setAttribute('type','number');
+			input.setAttribute('id', 'numInput' + i);
+
+			if (operation == 'add'){
+				question.innerHTML += i + ') ' +  Number(num1)+ ' + ' + Number(num2) + ' = ';
+			}else if (operation == 'sub'){
+				question.innerHTML += i + ') ' + Number(num1)+ ' - ' + Number(num2) + ' = ';
+			}else if (operation == 'mul'){
+				question.innerHTML += i + ') ' + Number(num1)+ ' * ' + Number(num2) + ' = ';
+			}else{
+				question.innerHTML += i + ') ' + Number(num1)+ ' / ' + Number(num2) + ' = ';
+			}
+			
+			question.append(input);		
+			question.append(space);
+		}
+
+		var header = document.createElement('H2');
+		var space = document.createElement('BR');
+		var textDiv = document.createElement('H4');
+		textDiv.innerText = "Please round numbers to the nearest whole number.";
+
+	
+		function level1(active){
+
+			header.innerText = 'LEVEL 1';
+			question.append(header);
+			question.append(space);
+			
+			if (active == 'add'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*9)+1;
+					var num2 = Math.floor(Math.random()*9)+1;
+
+					var result = resultFunction('add',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'add');
+				} 
+
+				gradeCheck(correct,2,'add'); //end of active == 'add'
+
+			}else if (active == 'sub'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*9)+1;
+					var num2 = Math.floor(Math.random()*9)+1;
+
+					var result = resultFunction('sub',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'sub');
+				} 
+
+				gradeCheck(correct,2,'sub');
+
+			}else if (active == 'mul'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*9)+1;
+					var num2 = Math.floor(Math.random()*9)+1;
+
+					var result = resultFunction('mul',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'mul');
+				} 
+
+				gradeCheck(correct,2,'mul');
+			}
+
+			else {
+				
+				question.append(textDiv);
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*9)+1;
+					var num2 = Math.floor(Math.random()*9)+1;
+
+					var result = resultFunction('div',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'div');
+				} 
+
+				gradeCheck(correct,2,'div');
+			}
+		}
+
+		function level2(active){
+			question.innerHTML = "";
+
+			header.innerText = 'LEVEL 2';
+			question.append(header);
+			question.append(space);
+			
+			if (active == 'add'){	
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random() * 9) + 1;
+					var num2 = Math.floor(Math.random() * 99) + 10;
+					
+					var result = resultFunction('add',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'add');
+				} 
+
+				gradeCheck(correct,3,'add');
+				//end of active = 'add'
+
+			}else if (active == 'sub'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*9)+1;
+					var num2 = Math.floor(Math.random()*99)+10;
+
+					var result = resultFunction('sub',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'sub');
+				} 
+				gradeCheck(correct,3,'sub');
+
+			}else if (active == 'mul'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*9)+1;
+					var num2 = Math.floor(Math.random()*99)+10;
+
+					var result = resultFunction('mul',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'mul');
+				} 
+
+				gradeCheck(correct,3,'mul');
+			}
+
+			else {
+				
+				question.append(textDiv);
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*9)+10;
+					var num2 = Math.floor(Math.random()*99)+10;
+
+					var result = resultFunction('div',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'div');
+				} 
+
+				gradeCheck(correct,3,'div');
+			}
+
+		}
+
+		function level3(active){
+			question.innerHTML = "";
+
+			header.innerText = 'LEVEL 3';
+			question.append(header);
+			question.append(space);
+
+			if (active == 'add'){	
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random() * 99) + 10;
+					var num2 = Math.floor(Math.random() * 99) + 10;
+					
+					var result = resultFunction('add',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i);
+				} 
+				gradeCheck(correct,4,'add');
+
+			}else if (active == 'sub'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*99)+10;
+					var num2 = Math.floor(Math.random()*99)+10;
+
+					var result = resultFunction('sub',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'sub');
+				} 
+
+				gradeCheck(correct,4,'sub');
+
+			}else if (active == 'mul'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*99)+10;
+					var num2 = Math.floor(Math.random()*99)+10;
+
+					var result = resultFunction('mul',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'mul');
+				} 
+
+				gradeCheck(correct,4,'mul');
+			}
+
+			else {
+				
+				question.append(textDiv);
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*99)+10;
+					var num2 = Math.floor(Math.random()*99)+10;
+
+					var result = resultFunction('div',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'div');
+				} 
+
+				gradeCheck(correct,4,'div');
+			}	
+		}
+
+		function level4(active){
+			question.innerHTML = "";
+
+			header.innerText = 'LEVEL 4';
+			question.append(header);
+			question.append(space);
+
+			if (active == 'add'){	
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random() * 99) + 10;
+					var num2 = Math.floor(Math.random() * 999) + 100;
+					
+					var result = resultFunction('add',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i);
+				} 
+
+				gradeCheck(correct,5,'add');
+
+			}else if (active == 'sub'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*99)+10;
+					var num2 = Math.floor(Math.random()*999)+100;
+
+					var result = resultFunction('sub',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'sub');
+				} 
+
+				gradeCheck(correct,5,'sub');
+
+			}else if (active == 'mul'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*99)+10;
+					var num2 = Math.floor(Math.random()*999)+100;
+
+					var result = resultFunction('mul',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'mul');
+				} 
+
+				gradeCheck(correct,5,'mul');
+			}
+
+			else {
+				
+				question.append(textDiv);
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*99)+10;
+					var num2 = Math.floor(Math.random()*999)+100;
+
+					var result = resultFunction('div',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'div');
+				} 
+
+				gradeCheck(correct,5,'div');
+			}
+		}
+
+		function level5(active){
+			question.innerHTML = "";
+
+			header.innerText = 'LEVEL 5';
+			question.append(header);
+			question.append(space);
+
+			if (active == 'add'){	
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random() * 999) + 100;
+					var num2 = Math.floor(Math.random() * 999) + 100;
+					
+					var result = resultFunction('add',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i);
+				} 
+
+				gradeCheck(correct,6,'add');
+
+			}else if (active == 'sub'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*999)+100;
+					var num2 = Math.floor(Math.random()*999)+100;
+
+					var result = resultFunction('sub',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'sub');
+				} 
+
+				gradeCheck(correct,6,'sub');
+
+			}else if (active == 'mul'){
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*999)+100;
+					var num2 = Math.floor(Math.random()*999)+100;
+
+					var result = resultFunction('mul',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'mul');
+				} 
+
+				gradeCheck(correct,6,'mul');
+			}
+
+			else {
+				
+				question.append(textDiv);
+
+				for (var i=1; i <= 15; i++){
+					var num1 = Math.floor(Math.random()*999)+100;
+					var num2 = Math.floor(Math.random()*999)+100;
+
+					var result = resultFunction('div',num1,num2);
+					correct.push(result);
+
+					addQuestions(num1,num2,i,'div');
+				} 
+
+				gradeCheck(correct,6,'div');
+			}
+		}
+	</script>
+</body>
+</html>

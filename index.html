@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title> Math Registration Form </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="Author" content="Alecia Bailey"/>
+	<meta name="Keywords" content="html,images,basic tags, Web Programming"/>
+	<meta charset="UTF-8"/>
+	
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        
+		body {
+			background-color:#FF00FF; 
+		}
+        
+        input[type=text],
+        input[type=number],
+        input[type=date],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+            border: #C71585 1px solid;
+        }
+        
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+            color: 	#0000CD;
+        }
+        
+        input[type=submit] {
+            background-color: #CD5C5C;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        
+        input[type=submit]:hover {
+            background-color: #fff;
+            color: #D2691E;
+            border: #D2691E 1px solid;
+            transition: background-color 1s ease-out;
+        }
+        
+        .container {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            box-shadow: 0 0 20px 0 rgba(72, 94, 116, 0.7);
+        }
+        
+        h1 {
+            margin: 0;
+            font-family: Arial, "Helvetica Neve", Helvetica, sans-serif;
+            font-size: 30px;
+            color: #fff;
+            line-height: 1.6;
+            text-shadow: 2px 2px 8px #808080;
+        }
+        
+        span {
+            font-family: 'Pacifico', cursive;
+            color: 	#FFD700;
+        }
+        
+        .col-25 {
+            float: left;
+            width: 25%;
+            margin-top: 6px;
+        }
+        
+        .col-75 {
+            float: left;
+            width: 75%;
+            margin-top: 6px;
+        }
+        /* Clear floats after the columns */
+        
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+        
+        @media (max-width: 600px) {
+            .col-25,
+            .col-75,
+            input[type=submit] {
+                width: 100%;
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Math <span>Registration</span> Form</h1>
+
+    <div class="container">
+        <form id="frm" method="get">
+            <div class="row">
+                <div class="col-25">
+                    <label for="fname">First Name</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="fname" name="firstname" maxlength="3" placeholder="Your first name.." required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="mname">Middle Name</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="mname" name="middlename" maxlength="3" placeholder="Your middle name.." required>
+                </div>
+            </div>
+			
+			<div class="row">
+                <div class="col-25">
+                    <label for="lname">Last Name</label>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="lname" name="lastname" maxlength="3" placeholder="Your last name.." required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="gender">Born Gender</label>
+                </div>
+                <div class="col-75">
+                    <select id="gender" name="genderr" required>
+						<option value="male">Male</option>
+						<option value="female">Female</option>
+					</select>
+				</div>	
+			</div>
+			
+			<div class="row">
+                <div class="col-25">
+                    <label>Date Of Birth</label>
+                </div>
+                <div class="col-75">
+                    <input type="date" id="dob" name="date of birth"  required>
+                </div>
+            </div>
+			
+			<div class="row">
+                <div class="col-25">
+                    <label>Age</label>
+					<button type="button" onclick="getAge(dob);" required> Display Age </button>
+                </div>
+                <div class="col-75">
+                    <input type="text" id="result">
+                </div>
+            </div>
+			
+				<div class="col-75">
+					<img src="Smiley face.png" alt="Smiley face" height="200" width="200">
+				</div>
+			
+			
+            <div class="row">
+				<input type="submit" value="Submit">
+			</div>
+			
+        </form>
+    </div>
+
+    <script language="Javascript" type="text/javascript">
+	
+        function getAge(dob) {
+			var today = new Date();
+			var nowyear = today.getFullYear();
+            var birthyear = parseInt(document.getElementById('dob').value);
+            var age = document.getElementById('result').value = nowyear - birthyear;
+		
+			if(age < 9 || age > 12){
+				alert("Age "+age+" is restricted");
+			} else {
+				alert("Age "+age+" is allowed");
+				location.href='math.html';
+			}
+		}	
+		
+    </script>
+</body>
+
+</html>
