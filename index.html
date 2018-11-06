@@ -152,7 +152,7 @@
 		<div class="row">
                 <div class="col-25">
 					<label for="image">Image</label>
-					<input style="display: inline" type="file" accept="image/*">
+					<input style="display: inline" id="img" type="file" accept="image/*">
 				</div>
 			</div>			
 			
@@ -168,7 +168,7 @@
 			<div class="row">
                 <div class="col-25">
                     <label>Age</label>
-					<button type="button" onclick="getAge(dob);" required> Display Age </button>
+					<button type="button" id="agee" onclick="getAge(dob);" required> Display Age </button>
                 </div>
                 <div class="col-75">
                     <input type="text" id="result">
@@ -199,6 +199,13 @@
 				alert("Age "+age+" is restricted");
 			} else {
 				alert("Age "+age+" is allowed");
+				var fname = document.getElementById("fname").value;
+				var mname = document.getElementById("mname").value;
+				var lname = document.getElementById("lname").value;
+				var gender = document.getElementById("gender").value;
+				var img = document.getElementById("img").value;
+				var dob = document.getElementById("dob").value;
+				var agee = document.getElementById("agee").value;
 				location.href='math.html';
 			}
 		}	
